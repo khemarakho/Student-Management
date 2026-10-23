@@ -156,6 +156,6 @@
     </footer>
 
     <!-- Global Delete Confirmation Modal -->
-    <x-delete-modal />
+    <x-delete />
 </body>
 </html>
