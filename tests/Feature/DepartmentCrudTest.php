@@ -111,4 +111,33 @@ class DepartmentCrudTest extends TestCase
             'dept_id' => $dept->dept_id,
         ]);
     }
+
+    public function test_department_views_render_delete_buttons_and_modal(): void
+    {
+        $dept = Department::factory()->create([
+            'dept_name' => 'Architecture Dept',
+        ]);
+        $student = Student::factory()->create([
+            'dept_id' => $dept->dept_id,
+            'student_name' => 'Enrolled Student',
+        ]);
+
+        // Department index page renders delete button with modal trigger
+        $indexResponse = $this->actingAs($this->user)->get('/departments');
+        $indexResponse->assertStatus(200);
+        $indexResponse->assertSee('delete-confirmation-modal');
+        $indexResponse->assertSee("departments/{$dept->dept_id}");
+
+        // Department show page renders delete button and student roster delete button
+        $showResponse = $this->actingAs($this->user)->get("/departments/{$dept->dept_id}");
+        $showResponse->assertStatus(200);
+        $showResponse->assertSee('Delete Department');
+        $showResponse->assertSee("departments/{$dept->dept_id}");
+        $showResponse->assertSee("students/{$student->student_id}");
+
+        // Department edit page renders delete button
+        $editResponse = $this->actingAs($this->user)->get("/departments/{$dept->dept_id}/edit");
+        $editResponse->assertStatus(200);
+        $editResponse->assertSee('Delete Department');
+    }
 }

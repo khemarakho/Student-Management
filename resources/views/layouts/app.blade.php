@@ -152,6 +152,10 @@
             <div>
                 <span class="font-semibold text-slate-700">Ho Khemarak_Final Project</span> &bull; Student Management System
             </div>
+        </div>
     </footer>
+
+    <!-- Global Delete Confirmation Modal -->
+    <x-delete-modal />
 </body>
 </html>

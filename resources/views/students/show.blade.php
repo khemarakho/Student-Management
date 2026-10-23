@@ -139,14 +139,17 @@
 
         <!-- Footer Actions -->
         <div class="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between">
-            <form method="POST" action="{{ route('students.destroy', $student) }}"
-                onsubmit="return confirm('Are you sure you want to permanently delete this student record?');">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="px-4 py-2 rounded-xl text-xs font-semibold text-rose-600 hover:text-rose-700 hover:bg-rose-50 transition cursor-pointer">
-                    Delete Student Record
-                </button>
-            </form>
+            <button type="button"
+                data-delete-url="{{ route('students.destroy', $student) }}"
+                data-delete-name="{{ $student->student_name }}"
+                data-delete-type="Student"
+                data-delete-details="Enrollment: {{ $student->enrollment }} &bull; ID: #{{ $student->student_id }}"
+                data-delete-title="Delete Student Record"
+                data-delete-warning="This will permanently delete {{ $student->student_name }}'s entire profile and academic records."
+                class="inline-flex items-center space-x-1.5 px-4 py-2 rounded-xl text-xs font-semibold text-rose-600 hover:text-rose-700 hover:bg-rose-50 border border-transparent hover:border-rose-200 transition cursor-pointer">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                <span>Delete Student Record</span>
+            </button>
 
             <a href="{{ route('students.edit', $student) }}" class="px-5 py-2.5 rounded-xl text-xs font-semibold text-white gradient-brand shadow-md shadow-indigo-500/20 hover:opacity-95 transition">
                 Edit Record

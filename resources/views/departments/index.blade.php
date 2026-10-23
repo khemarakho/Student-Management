@@ -93,15 +93,17 @@
                                         class="p-1.5 rounded-lg text-slate-500 hover:text-amber-600 hover:bg-amber-50 transition">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                                     </a>
-                                    <form method="POST" action="{{ route('departments.destroy', $dept) }}" class="inline"
-                                        onsubmit="return confirm('Are you sure you want to delete this department? Related students may also be removed.');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" title="Delete Department"
-                                            class="p-1.5 rounded-lg text-slate-500 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                                        </button>
-                                    </form>
+                                    <button type="button" 
+                                        title="Delete Department"
+                                        data-delete-url="{{ route('departments.destroy', $dept) }}"
+                                        data-delete-name="{{ $dept->dept_name }}"
+                                        data-delete-type="Department"
+                                        data-delete-details="ID: #{{ $dept->dept_id }} &bull; {{ $dept->students_count }} {{ Str::plural('Student', $dept->students_count) }}"
+                                        data-delete-title="Delete Department"
+                                        data-delete-warning="{{ $dept->students_count > 0 ? 'Caution: This department currently has ' . $dept->students_count . ' enrolled ' . Str::plural('student', $dept->students_count) . '. Deleting it will permanently delete all associated student records as well.' : 'Are you sure you want to permanently delete this department?' }}"
+                                        class="p-1.5 rounded-lg text-slate-500 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                    </button>
                                 </div>
                             </td>
                         </tr>

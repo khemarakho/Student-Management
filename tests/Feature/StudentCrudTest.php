@@ -177,4 +177,30 @@ class StudentCrudTest extends TestCase
         $this->assertTrue($dept->students->contains($student1));
         $this->assertTrue($dept->students->contains($student2));
     }
+
+    public function test_student_views_render_delete_buttons_and_modal(): void
+    {
+        $dept = Department::factory()->create();
+        $student = Student::factory()->create([
+            'student_name' => 'Khem Test Student',
+            'dept_id' => $dept->dept_id,
+        ]);
+
+        // Student index page has delete button and global delete modal
+        $indexResponse = $this->actingAs($this->user)->get('/students');
+        $indexResponse->assertStatus(200);
+        $indexResponse->assertSee('delete-confirmation-modal');
+        $indexResponse->assertSee("students/{$student->student_id}");
+
+        // Student profile show page has delete button
+        $showResponse = $this->actingAs($this->user)->get("/students/{$student->student_id}");
+        $showResponse->assertStatus(200);
+        $showResponse->assertSee('Delete Student Record');
+        $showResponse->assertSee("students/{$student->student_id}");
+
+        // Student edit page has delete button
+        $editResponse = $this->actingAs($this->user)->get("/students/{$student->student_id}/edit");
+        $editResponse->assertStatus(200);
+        $editResponse->assertSee('Delete Student');
+    }
 }

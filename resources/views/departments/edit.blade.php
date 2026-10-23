@@ -63,13 +63,28 @@
             </div>
 
             <!-- Actions -->
-            <div class="pt-4 border-t border-slate-100 flex items-center justify-end space-x-3">
-                <a href="{{ route('departments.index') }}" class="px-5 py-2.5 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
-                    Cancel
-                </a>
-                <button type="submit" class="px-6 py-2.5 rounded-xl text-sm font-semibold text-white gradient-brand shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:opacity-95 transition cursor-pointer">
-                    Update Department
+            @php $studentsCount = $department->students()->count(); @endphp
+            <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <button type="button"
+                    data-delete-url="{{ route('departments.destroy', $department) }}"
+                    data-delete-name="{{ $department->dept_name }}"
+                    data-delete-type="Department"
+                    data-delete-details="ID: #{{ $department->dept_id }} &bull; {{ $studentsCount }} {{ Str::plural('Student', $studentsCount) }}"
+                    data-delete-title="Delete Department"
+                    data-delete-warning="{{ $studentsCount > 0 ? 'Caution: This department currently has ' . $studentsCount . ' enrolled ' . Str::plural('student', $studentsCount) . '. Deleting this department will permanently delete all associated students as well.' : 'Are you sure you want to permanently delete this department?' }}"
+                    class="w-full sm:w-auto inline-flex items-center justify-center space-x-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold text-rose-600 hover:text-rose-700 hover:bg-rose-50 border border-rose-200 transition cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                    <span>Delete Department</span>
                 </button>
+
+                <div class="flex items-center space-x-3 w-full sm:w-auto justify-end">
+                    <a href="{{ route('departments.index') }}" class="px-5 py-2.5 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+                        Cancel
+                    </a>
+                    <button type="submit" class="px-6 py-2.5 rounded-xl text-sm font-semibold text-white gradient-brand shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:opacity-95 transition cursor-pointer">
+                        Update Department
+                    </button>
+                </div>
             </div>
         </form>
     </div>
